@@ -16,8 +16,8 @@ spec:
         app: warehouse-app
     spec:
       containers:
-        - name: {{ .Chart.Name }}
-          image: "{{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag }}"
+        - image: "{{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag }}"
+          name: {{ .Chart.Name }}
           env:
           - name: COUCHDB_USER
             valueFrom:
