@@ -41,3 +41,4 @@ spec:
               mountPath: /var/www/html
           volumes:
           - name: warehouse-app-storage
+          
