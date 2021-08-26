@@ -4,7 +4,8 @@ deployment:
   replicaCount: 1
   port: 8000
   image:
-    repository: nginx
+    repository: lolverae/warehouse_service
+    tag: latest
   
 
 service:
