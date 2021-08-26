@@ -10,6 +10,9 @@ deployment:
 PersistentVolumeClaim:
   name: app-pv-claim
   namespace: warehouse-ns
+  capacity: 1Gi
+
+
 
 service:
   namespace: warehouse-ns
