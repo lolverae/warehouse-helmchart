@@ -1,15 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "warehouse-app.fullname" . }}
-  labels:
-    {{- include "warehouse-app.labels" . | nindent 4 }}
+  name: warehouse-app
+  namespace: {{ .Values.service.namespace }}
 spec:
-  type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
-      protocol: TCP
-      name: http
+  - port: {{ .Values.service.port }}
+    nodePort: {{ .Values.service.nodePort }}
   selector:
-    {{- include "warehouse-app.selectorLabels" . | nindent 4 }}
+    app: warehouse-app
+  type: NodePort

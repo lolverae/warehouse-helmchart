@@ -1,61 +1,43 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "warehouse-app.fullname" . }}
+  name: {{ .Values.deployment.name }}
+  namespace: {{ .Values.deployment.namespace }}
   labels:
-    {{- include "warehouse-app.labels" . | nindent 4 }}
+    app: warehouse-app
 spec:
-  {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-  {{- end }}
+  replicas: {{ .Values.deployment.replicaCount }}
   selector:
     matchLabels:
-      {{- include "warehouse-app.selectorLabels" . | nindent 6 }}
+      app: warehouse-app
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
-      annotations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       labels:
-        {{- include "warehouse-app.selectorLabels" . | nindent 8 }}
+        app: warehouse-app
     spec:
-      {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      serviceAccountName: {{ include "warehouse-app.serviceAccountName" . }}
-      securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: "{{ .Values.image.repository }}:{{ .Values.deployment.tag }}"
+          env:
+          - name: COUCHDB_USER
+            valueFrom:
+              secretKeyRef:
+                name: db-user-pass
+                key: username
+          - name: COUCHDB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: db-user-pass
+                key: password
+          - name: COUCH_HOST
+            value: "warehouse-db"
+          - name: COUCH_PORT
+            value: "5984"
           ports:
-            - name: http
-              containerPort: 80
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+          - protocol: TCP
+            containerPort: {{ .Values.deployment.port }}
+            volumeMounts:
+            - name: warehouse-app-storage
+              mountPath: /var/www/html
+          volumes:
+          - name: warehouse-app-storage
