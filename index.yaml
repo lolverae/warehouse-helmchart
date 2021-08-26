@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  warehouse-app:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2021-08-26T19:27:11.077551761Z"
+    description: A Helm chart for Kubernetes
+    digest: d9c4bcda83915f75b3a98db151378ee6a26c4e0de93e8b46e6f10262b8b64735
+    name: warehouse-app
+    type: application
+    urls:
+    - warehouse-app-0.1.0.tgz
+    version: 0.1.0
+generated: "2021-08-26T19:27:11.077101955Z"
