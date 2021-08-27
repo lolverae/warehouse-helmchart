@@ -7,10 +7,10 @@ deployment:
     repository: lolverae/warehouse_service
     tag: latest
   
-PersistentVolumeClaim:
-  name: app-pv-claim
-  namespace: warehouse-ns
-  capacity: 1Gi
+# PersistentVolumeClaim:
+#   name: app-pv-claim
+#   namespace: warehouse-ns
+#   capacity: 1Gi
 
 
 
