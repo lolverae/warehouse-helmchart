@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.deployment.name }}
-  namespace: {{ .Values.deployment.namespace }}
+  name: {{ .Values.warehouse-service.application.deployment.name }}
+  namespace: {{ .Values.warehouse-service.application.deployment.namespace }}
   labels:
     app: warehouse-app
 spec:
-  replicas: {{ .Values.deployment.replicaCount }}
+  replicas: {{ .Values.warehouse-service.application.deployment.replicaCount }}
   selector:
     matchLabels:
       app: warehouse-app
@@ -16,7 +16,7 @@ spec:
         app: warehouse-app
     spec:
       containers:
-        - image: "{{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag }}"
+        - image: "{{ .Values.warehouse-service.application.deployment.image.repository }}:{{ .Values.warehouse-service.application.deployment.image.tag }}"
           name: {{ .Chart.Name }}
           env:
           - name: COUCHDB_USER
@@ -35,6 +35,19 @@ spec:
             value: "5984"
           ports:
           - protocol: TCP
-            containerPort: {{ .Values.deployment.port }}
+            containerPort: {{ .Values.warehouse-service.application.deployment.port }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: warehouse-app
+  namespace: {{ .Values.warehouse-service.application.service.namespace }}
+spec:
+  ports:
+  - port: {{ .Values.warehouse-service.application.service.port }}
+    nodePort: {{ .Values.warehouse-service.application.service.nodePort }}
+  selector:
+    app: warehouse-app
+  type: NodePort
 
           

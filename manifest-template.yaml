@@ -1,0 +1,34 @@
+file_version: '0.1'
+warehouse-service:
+  application:
+    deployment:
+      commitId: 1.0.0-c23991
+      image:
+        repository: lolverae/warehouse_service
+        tag: 1.0.0-c23991
+      name: warehouse-app
+      namespace: warehouse-ns
+      port: 8000
+      replicaCount: 1
+      version: 1.0.0-c23991
+    service:
+      name: warehouse-app
+      namespace: warehouse-ns
+      nodePort: 30001
+      port: 8000
+      type: NodePort
+  database:
+    deployment:
+      image:
+        repository: lolverae/warehouse_service
+        tag: 1.0.0-c23991
+      name: warehouse-db
+      namespace: warehouse-ns
+      port: 5984
+      replicaCount: 1
+    service:
+      name: warehouse-app
+      namespace: warehouse-ns
+      nodePort: 30001
+      port: 5984
+      type: NodePort
