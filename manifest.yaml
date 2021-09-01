@@ -2,16 +2,17 @@ file_version: '0.1'
 warehouse-service:
   application:
     deployment:
-      name: warehouse-app
-      namespace: warehouse-ns
-      replicaCount: 1
-      port: 8000
-      commitId: c23997
+      appVersion: 1.0.0
+      commitId: 826d25
       image:
         repository: lolverae/warehouse_service
-        tag: 1.0.0-c23997
-    service:
-      namespace: warehouse-ns
+        tag: 1.0.0-826d25
       name: warehouse-app
-      type: NodePort
+      namespace: warehouse-ns
       port: 8000
+      replicaCount: 1
+    service:
+      name: warehouse-app
+      namespace: warehouse-ns
+      port: 8000
+      type: NodePort

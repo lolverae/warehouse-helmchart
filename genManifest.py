@@ -21,6 +21,7 @@ def write_config(filename, **kwargs):
           namespace: warehouse-ns
           replicaCount: 1
           port: 8000
+          appVersion: {app_version}
           commitId: {commit_id}
           image:
             repository: lolverae/warehouse_service
@@ -57,10 +58,10 @@ def update_valuefiles(filename, **kwargs):
         y_ml = yaml.safe_load(fpm) or {}
     
     #  Version Update, after adding components data
-    version = y_ml["file_version"]
-    version = float(version) + float(0.1)
-    version = "%.1f" % version
-    y_ml["file_version"] = version
+    file_version = y_ml["file_version"]
+    file_version = float(file_version) + float(0.1)
+    file_version = "%.1f" % file_version
+    y_ml["file_version"] = file_version
     with open(pre_manifest_file, 'w+') as f:
         yaml.dump(y_ml, f, default_flow_style=False)
     print("Updated Manifest File for Component %s with %s" % (component_name, kwargs.values()))
@@ -70,17 +71,18 @@ def update_manifest(component_name, docker_tag):
     separator  = len( re.findall('[-]', docker_tag) )
     #if release is not retreived default to master
     release = 'valuefiles'
-    version=docker_tag
-    commit_id=docker_tag
+    if separator == 1:
+        app_version = docker_tag.split('-')[0]
+        commit_id = docker_tag.split('-')[1]
 
     # Define pre-manifest file path and access rights
     access_rights = 0o755
     pre_manifest_file = release + '/' + 'manifest.yaml'
 
-    write_config(pre_manifest_file, component_name=component_name, docker_tag=docker_tag, commit_id=commit_id)
-    write_config('manifest-template.yaml', component_name=component_name, docker_tag=docker_tag, commit_id=commit_id)
+    write_config(pre_manifest_file, component_name=component_name, docker_tag=docker_tag, commit_id=commit_id, app_version=app_version)
+    write_config('manifest.yaml', component_name=component_name, docker_tag=docker_tag, commit_id=commit_id, app_version=app_version)
     # update pre manifest file    
-    update_valuefiles('manifest.yaml', commitId=commit_id, version=version, tag=docker_tag, name=component_name)
+    update_valuefiles('manifest-template.yaml', commitId=commit_id, tag=docker_tag, name=component_name)
 
 def main():
     parser = argparse.ArgumentParser()
