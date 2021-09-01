@@ -1,4 +1,4 @@
-file_version: '0.1'
+file_version: '0.2'
 warehouse-service:
   application:
     deployment:
