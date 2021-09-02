@@ -30,9 +30,9 @@ spec:
                 name: db-user-pass
                 key: password
           - name: COUCH_HOST
-            value: "warehouse-db"
+            value: {{ .Values.warehouse.application.deployment.env.dbHost }}
           - name: COUCH_PORT
-            value: "5984"
+            value: {{ .Values.warehouse.application.deployment.env.dbPort }}
           ports:
           - protocol: TCP
             containerPort: {{ .Values.warehouse.application.deployment.port }}
