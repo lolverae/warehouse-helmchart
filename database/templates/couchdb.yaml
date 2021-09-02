@@ -28,11 +28,11 @@ spec:
               name: db-user-pass
               key: password
         - name: COUCH_HOST
-          value: {{ .Values.warehouse.database.deployment.env.dbHost }} # "warehouse-db"
+          value: {{ .Values.warehouse.database.deployment.env.dbHost }}
         - name: COUCH_PORT
-          value: {{ .Values.warehouse.database.deployment.env.dbPort }} #"5984"
+          value: {{ .Values.warehouse.database.deployment.env.dbPort }}
         ports:
-        - containerPort: {{ .Values.warehouse.database.deployment.port }} #5984
+        - containerPort: {{ .Values.warehouse.database.deployment.port }}
 ---
 apiVersion: v1
 kind: Service
@@ -41,6 +41,8 @@ metadata:
   namespace: {{ .Values.warehouse.database.service.namespace }}
 spec:
   ports:
-  - port: {{ .Values.warehouse.database.service.port }} #5984
+  - port: {{ .Values.warehouse.database.service.port }}
   selector:
     app: warehouse-db
+  type: {{ .Values.warehouse.database.service.type }}
+  nodePort: {{ .Values.warehouse.database.service.nodePort }}
