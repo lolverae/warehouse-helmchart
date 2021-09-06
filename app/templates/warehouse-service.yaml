@@ -16,7 +16,7 @@ spec:
         app: warehouse-app
     spec:
       containers:
-        - image: "{{ .Values.warehouse.application.deployment.image.repository }}:{{ .Values.warehouse.application.deployment.image.tag }}"
+        - image: {{ .Values.warehouse.application.deployment.image.repository }}:{{ .Values.warehouse.application.deployment.image.tag }}
           name: {{ .Chart.Name }}
           env:
           - name: COUCHDB_USER
@@ -30,9 +30,9 @@ spec:
                 name: db-user-pass
                 key: password
           - name: COUCH_HOST
-            value: {{ .Values.warehouse.application.deployment.env.dbHost }}
+            value: "{{ .Values.warehouse.application.deployment.env.dbHost }}"
           - name: COUCH_PORT
-            value: {{ .Values.warehouse.application.deployment.env.dbPort }}
+            value: "{{ .Values.warehouse.application.deployment.env.dbPort }}"
           ports:
           - protocol: TCP
             containerPort: {{ .Values.warehouse.application.deployment.port }}
@@ -50,4 +50,3 @@ spec:
     app: warehouse-app
   type: NodePort
 
-          
