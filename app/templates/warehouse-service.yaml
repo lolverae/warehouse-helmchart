@@ -49,4 +49,18 @@ spec:
   selector:
     app: warehouse-app
   type: NodePort
-
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: warehouse-ingress
+  namespace: {{ .Values.warehouse.application.service.namespace }}
+spec:
+  rules:
+  - host: ware.app
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: app
+          servicePort: 80
