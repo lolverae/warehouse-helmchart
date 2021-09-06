@@ -1,3 +1,20 @@
 apiVersion: v1
-entries: {}
-generated: "2021-09-06T15:36:05.169189593Z"
+entries:
+  kibana:
+  - apiVersion: v1
+    appVersion: 8.0.0-SNAPSHOT
+    created: "2021-09-06T15:59:36.761187351Z"
+    description: Official Elastic helm chart for Kibana
+    digest: 2f835b7ed93301df14056fea7185ee56a46f728dbb2c7024284e45a239dfb3f3
+    home: https://github.com/elastic/helm-charts
+    icon: https://helm.elastic.co/icons/kibana.png
+    maintainers:
+    - email: helm-charts@elastic.co
+      name: Elastic
+    name: kibana
+    sources:
+    - https://github.com/elastic/kibana
+    urls:
+    - kibana-8.0.0-SNAPSHOT.tgz
+    version: 8.0.0-SNAPSHOT
+generated: "2021-09-06T15:59:36.760377847Z"
