@@ -57,12 +57,27 @@ metadata:
   namespace: {{ .Values.warehouse.application.service.namespace }}
 spec:
   rules:
-  - host: ware.app
+  - host: warehouse.app
     http:
       paths:
-      - path: /
+      - path: /app
+        pathType: Prefix
         backend:
           service:
             name: warehouse-app
             port:
               number: 8000
+      - path: /dashboard
+        pathType: Prefix
+        backend:
+          service:
+            name: warehouse-dashboard
+            port:
+              number: 3000
+      - path: /kibana
+        pathType: Prefix
+        backend:
+          service:
+            name: warehouse-kibana
+            port:
+              number: 5601
