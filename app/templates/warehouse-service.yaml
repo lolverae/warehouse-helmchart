@@ -62,5 +62,7 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: app
-          servicePort: 8000
+          service:
+            name: warehouse-app
+            port:
+              number: 8000
